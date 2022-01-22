@@ -61,3 +61,5 @@ Thumbs.db
 *.tsv
 saved_checkpoint_BERT
 *.cfg
+
+/out
