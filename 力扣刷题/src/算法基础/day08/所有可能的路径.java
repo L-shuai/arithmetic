@@ -31,5 +31,70 @@ public class 所有可能的路径 {
             stack.pop();
         }
     }
+
+
+    /**
+     * BFS版本
+     * @param graph
+     * @return
+     */
+    public List<List<Integer>> allPathsSourceTarget2(int[][] graph) {
+        List<List<Integer>> res = new ArrayList<>();
+        int size = graph.length;
+        Queue<List<Integer>> queue = new LinkedList<>();
+        queue.offer(List.of(0));
+        while (!queue.isEmpty()) {
+            int n = queue.size();
+//            在该层进行遍历
+            for (int i = 0; i < n; i++) {
+                List<Integer> cul = queue.poll();
+                int last = cul.get(cul.size() - 1);
+//                判断是否符合条件
+                if (last == size - 1) {
+                    res.add(cul);
+                    continue;
+                }
+                int[] dist = graph[last];
+//                向下一层扩散
+                for (int num : dist) {
+//                    //                也可在此判断是否符合条件
+                    List<Integer> list = new ArrayList<>(cul);
+                    list.add(num);
+                    queue.offer(list);
+                }
+            }
+        }
+        return res;
+    }
+    public List<List<Integer>> allPathsSourceTarget3(int[][] graph) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Queue<List<Integer>> queue = new LinkedList<>();
+        int size = graph.length;
+        queue.offer(List.of(0));//将初始节点0加入队列
+        while (!queue.isEmpty()){
+            int n = queue.size();
+//            遍历本层
+            for(int j=0;j<n;j++){
+//                队首出队
+                List<Integer> cur = queue.poll();
+//                获取上一个经过的点
+                int last = cur.get(cur.size()-1);
+                int[] dist = graph[last];
+//                向下一层扩散
+                for(int k:dist){
+                    List<Integer> list = new ArrayList<>(cur);
+                    list.add(k);
+//                    判断是否为终点
+                    if(k==size-1){
+                        ans.add(list);
+                    }
+                    queue.offer(list);
+                }
+            }
+        }
+        return ans;
+    }
+
+
 }
 
